@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("./partials/head")%>
+  </head>
+  <body>  <%- include("./partials/nav")%> 
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+          <div class="card shadow-sm">
+            <div class="card-body p-5">
+              <h2 class="text-center mb-4">Create Account</h2>
+              
+              <form action="/user/signup" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                  <label for="fullName" class="form-label">Full Name</label>
+                  <input type="text" class="form-control" id="fullName" name="fullName" required>
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email address</label>
+                  <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="mb-4">
+                  <label for="profileImage" class="form-label">Profile Picture</label>
+                  <input type="file" class="form-control" id="profileImage" name="profileImage" accept="image/*">
+                  <div class="form-text">Optional: Upload a profile picture</div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Create Account</button>
+              </form>
+
+              <div class="text-center mt-4">
+                <p class="mb-0">Already have an account? <a href="/user/signin" class="text-primary">Sign In</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <%- include("./partials/script")%>
+  </body>
+</html>

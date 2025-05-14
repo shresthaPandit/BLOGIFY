@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head")%>
+    <style>
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+        .blog-card {
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .blog-card:hover {
+            transform: translateY(-5px);
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+        .author-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .author-image {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .blog-meta {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <%- include("./partials/nav")%>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Latest Blog Posts</h1>
+            <% if (user) { %>
+                <a href="/blog/add-new" class="btn btn-primary">Create New Post</a>
+            <% } %>
+        </div>
+
+        <div class="blog-grid">
+            <% blogs.forEach(blog => { %>
+                <div class="card blog-card">
+                    <img 
+                        src="/<%= blog.coverImageUrl %>" 
+                        class="card-img-top" 
+                        alt="Blog cover"
+                        onerror="this.src='/images/default.avif'"
+                    >
+                    <div class="card-body">
+                        <div class="author-info">
+                            <img 
+                                src="<%= blog.createdBy ? blog.createdBy.profileImage : '/images/default.avif' %>" 
+                                alt="Author" 
+                                class="author-image"
+                                onerror="this.src='/images/default.avif'"
+                            >
+                            <div>
+                                <strong><%= blog.createdBy ? blog.createdBy.fullName : 'Anonymous' %></strong>
+                            </div>
+                        </div>
+                        <h5 class="card-title"><%= blog.title %></h5>
+                        <p class="card-text"><%= blog.body.substring(0, 100) %>...</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="/blog/<%= blog._id %>" class="btn btn-primary">Read More</a>
+                            <small class="blog-meta"><%= new Date(blog.createdAt).toLocaleDateString() %></small>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+
+    <%- include("./partials/script")%>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head")%>
+</head>
+<body>
+    <%- include("./partials/nav")%>
+
+    <div class="container mt-4">
+        <div class="alert alert-danger">
+            <h4>Error</h4>
+            <p><%= error %></p>
+        </div>
+        <a href="/" class="btn btn-primary">Go back to home</a>
+    </div>
+
+    <%- include("./partials/script")%>
+</body>
+</html> 
