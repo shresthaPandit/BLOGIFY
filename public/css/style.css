@@ -1,0 +1,125 @@
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #2c3e50;
+    --accent-color: #e74c3c;
+    --background-color: #f5f6fa;
+    --text-color: #2c3e50;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+body.dark-mode {
+    background: #181a1b;
+    color: #f3f4f6;
+}
+
+.dark-mode .navbar, .dark-mode .footer {
+    background: linear-gradient(to right, #111827, #1e293b) !important;
+}
+
+.dark-mode .card, .dark-mode .comment-section {
+    background: #23272b;
+    color: #f3f4f6;
+}
+
+.dark-mode .btn-primary, .dark-mode .btn-outline-secondary {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+}
+
+.dark-mode .form-control {
+    background: #23272b;
+    color: #f3f4f6;
+    border: 1px solid #444;
+}
+
+.dark-mode .form-control:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37,99,235,0.2);
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    color: var(--primary-color) !important;
+    font-weight: 700;
+}
+
+/* Card Styling */
+.blog-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.blog-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Button Styling */
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #357abd;
+    transform: translateY(-2px);
+}
+
+/* Form Styling */
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
+}
+
+/* Blog Content */
+.blog-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+/* Comments Section */
+.comment-section {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+/* Footer */
+.footer {
+    background: linear-gradient(to right, #2563eb, #1e40af);
+    color: #fff;
+    padding: 30px 0 10px 0;
+    font-size: 1.1rem;
+    margin-top: 40px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .blog-card {
+        margin: 10px;
+    }
+} 

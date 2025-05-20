@@ -122,7 +122,7 @@ router.post("/:_id/delete", authenticateUser, async (req, res) => {
         const blog = await Blog.findById(req.params._id);
         
         if (!blog) {
-            return res.status(404).render("error", {
+            return res.status(404).render("error", { 
                 user: req.user,
                 error: "Blog post not found"
             });

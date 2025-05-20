@@ -1,160 +1,211 @@
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blogify</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-    :root {
-        --primary-color: #2563eb;
-        --secondary-color: #1e40af;
-        --text-color: #1f2937;
-        --light-bg: #f3f4f6;
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogify - Share Your Stories</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Additional Meta Tags -->
+    <meta name="description" content="Blogify - A modern blogging platform to share your stories">
+    <meta name="keywords" content="blog, writing, stories, blogging platform">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/images/favicon.png">
 
-    body {
-        font-family: 'Poppins', sans-serif;
-        color: var(--text-color);
-        line-height: 1.6;
-    }
-
-    .navbar {
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        background-color: white;
-        padding: 1rem 0;
-    }
-
-    .navbar-brand {
-        font-weight: 700;
-        font-size: 1.5rem;
-        color: var(--primary-color);
-    }
-
-    .nav-link {
-        font-weight: 500;
-        color: var(--text-color);
-        transition: color 0.3s ease;
-    }
-
-    .nav-link:hover {
-        color: var(--primary-color);
-    }
-
-    .btn-primary {
-        background-color: var(--primary-color);
-        border-color: var(--primary-color);
-        padding: 0.5rem 1.5rem;
-        font-weight: 500;
-        transition: all 0.3s ease;
-    }
-
-    .btn-primary:hover {
-        background-color: var(--secondary-color);
-        border-color: var(--secondary-color);
-        transform: translateY(-2px);
-    }
-
-    .card {
-        border: none;
-        transition: all 0.3s ease;
-        border-radius: 12px;
-        overflow: hidden;
-    }
-
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-
-    .form-control {
-        border-radius: 8px;
-        padding: 0.75rem 1rem;
-        border: 1px solid #e5e7eb;
-    }
-
-    .form-control:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 2px rgba(37,99,235,0.2);
-    }
-
-    .alert {
-        border-radius: 12px;
-        border: none;
-    }
-
-    .blog-content {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 2rem 0;
-    }
-
-    .blog-title {
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: var(--text-color);
-        margin-bottom: 1.5rem;
-    }
-
-    .blog-meta {
-        font-size: 0.9rem;
-        color: #6b7280;
-        margin-bottom: 2rem;
-    }
-
-    .comment-section {
-        background-color: var(--light-bg);
-        padding: 2rem;
-        border-radius: 12px;
-        margin-top: 3rem;
-    }
-
-    .comment {
-        background-color: white;
-        padding: 1.5rem;
-        border-radius: 8px;
-        margin-bottom: 1rem;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    .author-badge {
-        background-color: var(--light-bg);
-        padding: 0.5rem 1rem;
-        border-radius: 20px;
-        font-size: 0.9rem;
-        font-weight: 500;
-    }
-
-    .page-header {
-        background-color: var(--light-bg);
-        padding: 3rem 0;
-        margin-bottom: 3rem;
-        text-align: center;
-    }
-
-    .page-header h1 {
-        font-size: 3rem;
-        font-weight: 700;
-        color: var(--text-color);
-        margin-bottom: 1rem;
-    }
-
-    .page-header p {
-        font-size: 1.2rem;
-        color: #6b7280;
-        max-width: 600px;
-        margin: 0 auto;
-    }
-
-    @media (max-width: 768px) {
-        .blog-grid {
-            grid-template-columns: 1fr;
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --text-color: #1f2937;
+            --light-bg: #f3f4f6;
+            --gradient-start: #2563eb;
+            --gradient-end: #1e40af;
         }
-        
-        .page-header {
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--light-bg);
+        }
+
+        .navbar {
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9) !important;
+            transition: color 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            border: none;
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card {
+            border: none;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(37,99,235,0.2);
+        }
+
+        .alert {
+            border-radius: 12px;
+            border: none;
+        }
+
+        .blog-content {
+            max-width: 800px;
+            margin: 0 auto;
             padding: 2rem 0;
         }
-        
-        .page-header h1 {
-            font-size: 2rem;
+
+        .blog-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
         }
-    }
-</style>
+
+        .blog-meta {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+
+        .comment-section {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 3rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .comment {
+            background-color: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .author-badge {
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .page-header {
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-header {
+                padding: 2rem 0;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation will be included here -->
+    <%- include('nav') %>
+    
+    <!-- Main Content Container -->
+    <div class="container py-4">
+        <!-- Flash Messages -->
+        <% if (typeof messages !== 'undefined' && messages.error) { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <%= messages.error %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+        
+        <% if (typeof messages !== 'undefined' && messages.success) { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <%= messages.success %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+    </div>
+</body>
+</html>
