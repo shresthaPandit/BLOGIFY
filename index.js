@@ -19,6 +19,7 @@ app.use(express.static(path.resolve("./public")));
 const userRoutes = require("./routes/user");
 const blogRoutes = require("./routes/blog");
 const commentRoutes = require("./routes/comment");
+const chatRoutes = require("./routes/chat");
 
 // Connect to MongoDB
 mongoose.connect(MONGODB_URI)
@@ -48,5 +49,6 @@ app.get("/", async (req, res) => {
 app.use("/user", userRoutes);
 app.use("/blog", blogRoutes);
 app.use("/comment", commentRoutes);
+app.use("/api/chat", chatRoutes);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

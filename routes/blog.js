@@ -1,34 +1,8 @@
 const { Router } = require("express");
-const multer = require("multer");
-const path = require("path");
 const Blog = require("../model/blogs");
 const Comment = require("../model/comments");
-const fs = require('fs').promises;
+const { upload, deleteImageFromS3 } = require("../services/s3");
 const router = Router();
-
-// Ensure upload directories exist
-const createUploadDirs = async () => {
-    const uploadDir = path.resolve("./public/uploads");
-    try {
-        await fs.access(uploadDir);
-    } catch {
-        // Directory doesn't exist, create it
-        await fs.mkdir(uploadDir, { recursive: true });
-    }
-};
-
-const storage = multer.diskStorage({
-    destination: async function (req, file, cb) {
-        await createUploadDirs(); // Ensure directory exists
-        cb(null, path.resolve("./public/uploads"));
-    },
-    filename: function (req, file, cb) {
-        const fileName = `${Date.now()}-${file.originalname}`;
-        cb(null, fileName);
-    }
-});
-
-const upload = multer({ storage: storage });
 
 // Middleware to check if user is authenticated
 const authenticateUser = (req, res, next) => {
@@ -51,23 +25,16 @@ router.post("/", authenticateUser, upload.single("file"), async (req, res) => {
                 error: "Please upload a cover image"
             });
         }
+        
         const blog = await Blog.create({
             title,
             body,
             createdBy: req.user._id,
-            coverImageUrl: `uploads/${req.file.filename}`
+            coverImageUrl: req.file.location // S3 URL instead of local path
         });
+        
         return res.redirect(`/blog/${blog._id}`);
     } catch (error) {
-        // If there's an error and a file was uploaded, delete it
-        if (req.file) {
-            try {
-                await fs.unlink(req.file.path);
-            } catch (unlinkError) {
-                console.error("Error deleting uploaded file:", unlinkError);
-            }
-        }
-        
         console.error("Blog creation error:", error);
         return res.status(400).render("addblog", {
             user: req.user,
@@ -136,13 +103,9 @@ router.post("/:_id/delete", authenticateUser, async (req, res) => {
             });
         }
 
-        // Delete the cover image file
+        // Delete the cover image from S3
         if (blog.coverImageUrl) {
-            try {
-                await fs.unlink(path.resolve(`./public/${blog.coverImageUrl}`));
-            } catch (err) {
-                console.error("Error deleting cover image:", err);
-            }
+            await deleteImageFromS3(blog.coverImageUrl);
         }
 
         // Delete all comments associated with the blog
