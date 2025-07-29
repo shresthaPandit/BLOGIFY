@@ -231,11 +231,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 If you have any questions or need help:
 
 - **Issues**: [GitHub Issues](https://github.com/shresthaPandit/BLOGIFY/issues)
-- **Email**: [Your Email]
-- **LinkedIn**: [Your LinkedIn]
+- **Email**: [shresthapandit*@gmail.com]
+  
 
 ---
 
 ⭐ **Star this repository if you found it helpful!**
 
-Made with ❤️ by [Your Name]
+Made with ❤️ by Shrestha Pandit
