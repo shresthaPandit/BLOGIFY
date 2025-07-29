@@ -43,8 +43,16 @@ async function getChatResponse(prompt) {
         const response = await result.response;
         return response.text();
     } catch (error) {
-        console.error("Error getting chat response from Gemini:", error);
-        throw new Error("Failed to get response from AI service.");
+        // Handle specific Gemini API errors
+        if (error.status === 503) {
+            throw { status: 503, message: "The AI service is currently overloaded. Please try again in a few moments." };
+        } else if (error.status === 429) {
+            throw { status: 429, message: "Rate limit exceeded. Please wait a moment before trying again." };
+        } else if (error.status === 401) {
+            throw { status: 401, message: "API key authentication failed. Please check your configuration." };
+        }
+        
+        throw { status: 500, message: "Failed to get response from AI service." };
     }
 }
 
@@ -81,8 +89,42 @@ async function getChatResponseWithHistory(messages, blogContext = "") {
             content: response.text()
         };
     } catch (error) {
-        console.error("Error getting chat response with history from Gemini:", error);
-        throw new Error("Failed to get response from AI service.");
+        // Handle specific Gemini API errors
+        if (error.status === 503) {
+            throw { status: 503, message: "The AI service is currently overloaded. Please try again in a few moments." };
+        } else if (error.status === 429) {
+            throw { status: 429, message: "Rate limit exceeded. Please wait a moment before trying again." };
+        } else if (error.status === 401) {
+            throw { status: 401, message: "API key authentication failed. Please check your configuration." };
+        }
+        
+        throw { status: 500, message: "Failed to get response from AI service." };
+    }
+}
+
+/**
+ * Provides a fallback response when Gemini API is unavailable
+ * @param {string} userMessage - The user's message
+ * @returns {object} A fallback response message object
+ */
+function getFallbackResponse(userMessage) {
+    const fallbackResponses = {
+        greeting: "Hello! I'm Blogify's assistant. I'm currently experiencing some technical difficulties, but I'm here to help with your blog-related questions when I'm back online!",
+        writing: "I'd love to help with writing tips! Unfortunately, I'm temporarily unavailable due to high demand. Please try again in a few minutes, or feel free to explore our blog posts for inspiration!",
+        blog: "I can help you find and discuss blog posts! I'm currently experiencing some technical issues, but I'll be back to assist you shortly. In the meantime, you can browse our blog section!",
+        default: "I'm sorry, but I'm currently experiencing technical difficulties. Please try again in a few moments, or contact support if the issue persists."
+    };
+
+    const message = userMessage.toLowerCase();
+    
+    if (/hello|hi|hey|greetings/i.test(message)) {
+        return { role: 'assistant', content: fallbackResponses.greeting };
+    } else if (/write|writing|tip|advice|help/i.test(message)) {
+        return { role: 'assistant', content: fallbackResponses.writing };
+    } else if (/blog|post|article|content/i.test(message)) {
+        return { role: 'assistant', content: fallbackResponses.blog };
+    } else {
+        return { role: 'assistant', content: fallbackResponses.default };
     }
 }
 
@@ -91,4 +133,5 @@ module.exports = {
     buildSystemPrompt,
     getChatResponse,
     getChatResponseWithHistory,
+    getFallbackResponse,
 }; 

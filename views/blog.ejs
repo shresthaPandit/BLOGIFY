@@ -63,7 +63,7 @@
                         <small class="text-muted">Posted on <%= new Date(blog.createdAt).toLocaleDateString() %></small>
                     </div>
                 </div>
-                <% if (user && blog.createdBy && user._id === blog.createdBy._id.toString()) { %>
+                <% if (user && blog.createdBy && blog.createdBy._id && user._id === blog.createdBy._id.toString()) { %>
                     <div class="blog-actions">
                         <button 
                             type="button" 
@@ -80,7 +80,7 @@
             <!-- Blog Content -->
             <h1 class="display-4 mb-4"><%= blog.title %></h1>
             <img 
-                src="<%= blog.coverImageUrl.startsWith('http') ? blog.coverImageUrl : '/' + blog.coverImageUrl %>" 
+                src="<%= blog.coverImageUrl || '/images/default.avif' %>"
                 alt="cover image" 
                 class="blog-image"
                 onerror="this.src='/images/default.avif'"

@@ -1,25 +1,29 @@
 const mongoose = require("mongoose");
 
-const  blogSchema= new mongoose.Schema({
-    title:{
-        type:String,
-        required:true},
-    body:{
-        type:String,
-        required:true},
-    coverImageUrl:{
-        type:String,
-        required:false,
+const blogSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
     },
-    createdBy:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"user",
-        required:true,
+    body: {
+        type: String,
+        required: true,
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+        required: true,
+    },
+    coverImage: { 
+        type: String, 
+        default: "/images/default.avif" 
+    },
+    coverImageUrl: { 
+        type: String, 
+        default: "/images/default.avif" 
     }
-    ,
-    },{timestamps:true}
+}, { timestamps: true });
 
-);
+const Blog = mongoose.model("blog", blogSchema);
 
-const blog=mongoose.model("blog",blogSchema);
-module.exports=blog;
+module.exports = Blog;

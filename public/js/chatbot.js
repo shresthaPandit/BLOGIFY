@@ -46,11 +46,22 @@ document.addEventListener('DOMContentLoaded', function() {
         chatbox.scrollTop = chatbox.scrollHeight;
     }
 
+    // Show loading state with rotating animation
+    function showLoading() {
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<span class="loading-spinner">⏳</span>';
+    }
+
+    // Hide loading state
+    function hideLoading() {
+        sendBtn.disabled = false;
+        sendBtn.innerHTML = '<span>➤</span>';
+    }
+
     // Send message to API
     async function sendMessage(message) {
         try {
-            sendBtn.disabled = true;
-            sendBtn.innerHTML = '<span>⏳</span>';
+            showLoading();
             
             const response = await fetch('/api/chat', {
                 method: 'POST',
@@ -74,8 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error:', error);
             addMessage('Sorry, I encountered an error. Please try again.');
         } finally {
-            sendBtn.disabled = false;
-            sendBtn.innerHTML = '<span>➤</span>';
+            hideLoading();
         }
     }
 

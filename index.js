@@ -10,8 +10,8 @@ const { checkForAuthenticationCookie } = require("./middlewares/authentication")
 const app = express();
 
 // Environment variables
-const PORT = process.env.PORT || 8000;
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/blogify";
+const PORT = process.env.PORT || 8001;
+const MONGODB_URI = process.env.MONGODB_URI;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve("./public")));
@@ -35,7 +35,17 @@ app.use(express.json());
 
 app.get("/", async (req, res) => {
     try {
-        const allBlogs = await blog.find({}).populate("createdBy").sort("-createdAt");
+        const allBlogs = await blog.find({}).populate({
+            path: 'createdBy',
+            select: 'fullName profileImage'
+        }).sort("-createdAt");
+        
+        console.log("Blogs found:", allBlogs.map(b => ({
+            title: b.title,
+            coverImageUrl: b.coverImageUrl,
+            coverImage: b.coverImage
+        })));
+        
         res.render("home", { user: req.user, blogs: allBlogs });
     } catch (error) {
         console.error("Home page error:", error);

@@ -53,7 +53,7 @@
             <% blogs.forEach(blog => { %>
                 <div class="card blog-card">
                     <img 
-                        src="<%= blog.coverImageUrl.startsWith('http') ? blog.coverImageUrl : '/' + blog.coverImageUrl %>" 
+                        src="<%= blog.coverImageUrl || '/images/default.avif' %>"
                         class="card-img-top" 
                         alt="Blog cover"
                         onerror="this.src='/images/default.avif'"
