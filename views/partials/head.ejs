@@ -188,25 +188,3 @@
     </style>
 </head>
 <body>
-    <!-- Navigation will be included here -->
-    <%- include('nav') %>
-    
-    <!-- Main Content Container -->
-    <div class="container py-4">
-        <!-- Flash Messages -->
-        <% if (typeof messages !== 'undefined' && messages.error) { %>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <%= messages.error %>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <% } %>
-        
-        <% if (typeof messages !== 'undefined' && messages.success) { %>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <%= messages.success %>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <% } %>
-    </div>
-</body>
-</html>

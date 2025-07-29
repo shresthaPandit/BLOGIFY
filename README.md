@@ -145,6 +145,41 @@ A full-stack blogging application built with Node.js, Express, MongoDB, and EJS.
 - **Intuitive Navigation**: Easy-to-use interface
 - **Modern UI**: Clean and professional design
 
+## 🔍 S3 Bucket Organization
+
+Your S3 bucket is organized with different prefixes for different types of content:
+
+### 📁 **Blog Images** (`blogs/` prefix)
+- Blog cover images and content images
+- Stored as: `blogs/timestamp-filename.jpg`
+- Example: `blogs/1753780977331-shresth_pfp.jpg`
+
+### 👤 **Profile Images** (`profiles/` prefix)  
+- User profile pictures and avatars
+- Stored as: `profiles/timestamp-filename.jpg`
+- Example: `profiles/1753798979351-shresthapicture.jpg`
+
+### 🔍 **How to View Profile Images in S3 Console**
+
+**You're currently inside the `blogs/` folder. To see profile images:**
+
+1. **Go back to the root of your bucket**:
+   - Click on the breadcrumb: `imageinsidebucket-93899-2025` (the bucket name)
+   - This will take you to the root level where you can see all folders/prefixes
+
+2. **Look for the `profiles/` folder**:
+   - At the root level, you should see both `blogs/` and `profiles/` folders
+   - Click on the `profiles/` folder to see your profile images
+
+3. **Alternative navigation**:
+   - In the breadcrumb at the top, click on `imageinsidebucket-93899-2025`
+   - This will show you all the folders in your bucket
+
+**Current location**: You're in `blogs/` folder (showing only blog images)
+**Where profile images are**: In the `profiles/` folder at the root level
+
+**Note**: Profile images are working correctly! They're just in a different folder than where you're currently looking.
+
 ## 🔧 Configuration
 
 ### MongoDB Atlas Setup
