@@ -2,7 +2,7 @@
 
 A full-stack blogging application built with Node.js, Express, MongoDB, and EJS. Features AI-powered chatbot assistance, user authentication, image uploads, and a modern responsive design.
 
-![Blogify Demo](https://img.shields.io/badge/Status-Live-brightgreen)
+![Blogify Demo](https://blogify-z0b8.onrender.com/Status-Live-brightgreen)
 ![Node.js](https://img.shields.io/badge/Node.js-18+-green)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-blue)
 ![Express](https://img.shields.io/badge/Express-4.18+-orange)
