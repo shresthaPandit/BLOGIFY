@@ -13,6 +13,23 @@ const app = express();
 const PORT = process.env.PORT || 8001;
 const MONGODB_URI = process.env.MONGODB_URI;
 
+// Security middleware
+app.use((req, res, next) => {
+    // Security headers
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
+    
+    // Force HTTPS in production
+    if (process.env.NODE_ENV === 'production' && !req.secure && req.get('x-forwarded-proto') !== 'https') {
+        return res.redirect('https://' + req.get('host') + req.url);
+    }
+    
+    next();
+});
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve("./public")));
 
