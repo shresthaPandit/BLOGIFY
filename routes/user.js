@@ -2,33 +2,57 @@ const { Router } = require("express");
 const router = Router();
 const User = require("../model/users");
 const multer = require("multer");
-const path = require("path");
-const fs = require('fs').promises;
+const multerS3 = require("multer-s3");
+const AWS = require("aws-sdk");
 
-// Ensure upload directories exist
-const createUploadDirs = async () => {
-    const uploadDir = path.resolve("./public/uploads/profiles");
-    try {
-        await fs.access(uploadDir);
-    } catch {
-        // Directory doesn't exist, create it
-        await fs.mkdir(uploadDir, { recursive: true });
-    }
-};
+// Configure AWS S3
+const s3 = new AWS.S3({
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: process.env.AWS_REGION
+});
 
-// Configure multer for profile image uploads
-const storage = multer.diskStorage({
-    destination: async function (req, file, cb) {
-        await createUploadDirs(); // Ensure directory exists
-        cb(null, path.resolve("./public/uploads/profiles"));
+// Configure multer for S3 upload (profile images)
+const upload = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: process.env.AWS_S3_BUCKET_NAME,
+        contentType: multerS3.AUTO_CONTENT_TYPE,
+        key: function (req, file, cb) {
+            const fileName = `profiles/${Date.now()}-${file.originalname}`;
+            cb(null, fileName);
+        }
+    }),
+    fileFilter: function (req, file, cb) {
+        // Check file type
+        if (file.mimetype.startsWith('image/')) {
+            cb(null, true);
+        } else {
+            cb(new Error('Only image files are allowed!'), false);
+        }
     },
-    filename: function (req, file, cb) {
-        const fileName = `${Date.now()}-${file.originalname}`;
-        cb(null, fileName);
+    limits: {
+        fileSize: 5 * 1024 * 1024 // 5MB limit
     }
 });
 
-const upload = multer({ storage: storage });
+// Function to delete profile image from S3
+const deleteProfileImageFromS3 = async (imageUrl) => {
+    if (!imageUrl || imageUrl === '/images/default.avif' || !imageUrl.includes('amazonaws.com')) {
+        return;
+    }
+    
+    try {
+        const key = imageUrl.split('.com/')[1];
+        await s3.deleteObject({
+            Bucket: process.env.AWS_S3_BUCKET_NAME,
+            Key: key
+        }).promise();
+        console.log('✅ Profile image deleted from S3:', imageUrl);
+    } catch (error) {
+        console.error('❌ Error deleting profile image from S3:', error);
+    }
+};
 
 router.get("/signin", (req, res) => {
     return res.render("signin");
@@ -42,26 +66,34 @@ router.post("/signup", upload.single("profileImage"), async (req, res) => {
     try {
         const { fullName, email, password } = req.body;
         
+        let profileImageUrl = '/images/default.avif';
+        
+        if (req.file) {
+            profileImageUrl = req.file.location; // S3 URL
+            console.log("✅ New user profile image uploaded to S3:", profileImageUrl);
+        }
+        
         const userData = {
             fullName,
             email,
             password,
-            profileImage: req.file ? `/uploads/profiles/${req.file.filename}` : '/images/default.avif'
+            profileImage: profileImageUrl
         };
 
         await User.create(userData);
+        console.log("✅ New user created with S3 profile image");
         return res.redirect("/user/signin");
     } catch (error) {
-        // If there's an error and a file was uploaded, delete it
+        // If there's an error and a file was uploaded, delete it from S3
         if (req.file) {
             try {
-                await fs.unlink(req.file.path);
-            } catch (unlinkError) {
-                console.error("Error deleting uploaded file:", unlinkError);
+                await deleteProfileImageFromS3(req.file.location);
+            } catch (deleteError) {
+                console.error("❌ Error deleting uploaded file from S3:", deleteError);
             }
         }
         
-        console.error("Signup error:", error);
+        console.error("❌ Signup error:", error);
         return res.render("signup", {
             error: "Error creating account. Please try again."
         });

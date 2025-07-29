@@ -35,6 +35,12 @@ A full-stack blogging application built with Node.js, Express, MongoDB, and EJS.
 - Blog categorization and search
 - Real-time preview
 
+### 👤 **Profile Management**
+- Profile image upload to AWS S3 (persistent storage)
+- Automatic cleanup of old profile images
+- Secure file validation and size limits
+- Images persist across server restarts
+
 ### 💬 **Interactive Features**
 - Comment system on blog posts
 - Like and share functionality
